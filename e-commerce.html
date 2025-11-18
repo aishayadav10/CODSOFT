@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="e-commerce.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">ShopHub</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-icon" id="loginBtn">Login</button>
+                <button class="btn-icon cart-btn" id="cartBtn">
+                    🛒 Cart <span class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to ShopHub</h1>
+                <p>Discover amazing products at unbeatable prices</p>
+                <a href="#products" class="btn btn-primary">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Filter Section -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2>Our Products</h2>
+            
+            <!-- Filter Options -->
+            <div class="filter-bar">
+                <select id="categoryFilter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                    <option value="home">Home & Garden</option>
+                </select>
+                
+                <select id="priceFilter" class="filter-select">
+                    <option value="all">All Prices</option>
+                    <option value="low">Under $50</option>
+                    <option value="medium">$50 - $100</option>
+                    <option value="high">Over $100</option>
+                </select>
+                
+                <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Product 1 -->
+                <div class="product-card" data-category="electronics" data-price="299">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>Wireless Headphones</h3>
+                        <p class="category">Electronics</p>
+                        <p class="price">$299.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('Wireless Headphones', 299.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" data-category="clothing" data-price="49">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>Cotton T-Shirt</h3>
+                        <p class="category">Clothing</p>
+                        <p class="price">$49.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('Cotton T-Shirt', 49.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" data-category="books" data-price="19">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>JavaScript Guide</h3>
+                        <p class="category">Books</p>
+                        <p class="price">$19.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('JavaScript Guide', 19.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card" data-category="electronics" data-price="599">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>Smart Watch</h3>
+                        <p class="category">Electronics</p>
+                        <p class="price">$599.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('Smart Watch', 599.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card" data-category="home" data-price="89">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>Table Lamp</h3>
+                        <p class="category">Home & Garden</p>
+                        <p class="price">$89.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('Table Lamp', 89.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card" data-category="clothing" data-price="79">
+                    <img src="https://via.placeholder.com/300x300" alt="Product">
+                    <div class="product-info">
+                        <h3>Denim Jeans</h3>
+                        <p class="category">Clothing</p>
+                        <p class="price">$79.99</p>
+                        <button class="btn btn-add-cart" onclick="addToCart('Denim Jeans', 79.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <h3>Total: $<span id="cartTotal">0.00</span></h3>
+            </div>
+            <button class="btn btn-primary" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>User Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                <h3>Shipping Information</h3>
+                <input type="text" placeholder="Full Name" required>
+                <input type="text" placeholder="Address" required>
+                <input type="text" placeholder="City" required>
+                <input type="text" placeholder="Zip Code" required>
+                
+                <h3>Payment Information</h3>
+                <input type="text" placeholder="Card Number" required>
+                <input type="text" placeholder="Expiry Date (MM/YY)" required>
+                <input type="text" placeholder="CVV" required>
+                
+                <div class="checkout-total">
+                    <h3>Total Amount: $<span id="checkoutTotal">0.00</span></h3>
+                </div>
+                <button type="submit" class="btn btn-primary">Complete Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ShopHub. All rights reserved.</p>
+            <p>Hosted on GitHub Pages | Netlify | Heroku</p>
+        </div>
+    </footer>
+
+    <script src="e-commerce.js"></script>
+</body>
+</html>
